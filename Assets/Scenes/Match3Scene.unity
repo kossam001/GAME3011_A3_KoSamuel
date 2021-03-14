@@ -443,6 +443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819a1b116ffce1747952d52901e6d8ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boardState: 1
   rightBound: {fileID: 382860161}
   leftBound: {fileID: 872986189}
   bottomBound: {fileID: 751143420}
@@ -457,6 +458,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e3169e90983853d4d9d73233512118e2, type: 3}
   - {fileID: 21300000, guid: dca7a45bef5bffa4395181b03e04d081, type: 3}
   - {fileID: 21300000, guid: 6e84ec6047673d440aa377e4980bfea8, type: 3}
+  shiftedTiles: []
 --- !u!4 &344633081
 Transform:
   m_ObjectHideFlags: 0
