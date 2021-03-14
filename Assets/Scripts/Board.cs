@@ -11,10 +11,17 @@ public class Board : MonoBehaviour
     public int rows;
     public int columns;
 
+    public GameObject tileTemplate;
     public List<Sprite> tileSprites;
 
     // Start is called before the first frame update
     void Start()
+    {
+        SetBounds(rows, columns);
+        CreateTiles(0.5f, 0.5f);
+    }
+
+    private void SetBounds(int rows, int columns)
     {
         rightBound.position = new Vector3(columns, 0.0f);
 
@@ -24,9 +31,14 @@ public class Board : MonoBehaviour
         bottomBound.localScale = new Vector3(columns, 1.0f);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void CreateTiles(float xOffset, float yOffset)
     {
-        
+        for (int x = 0; x < columns; x++)
+        {
+            for (int y = 0; y < rows; y++)
+            {
+                Instantiate(tileTemplate, new Vector3(x + xOffset, y + yOffset), Quaternion.identity);
+            }
+        }
     }
 }
