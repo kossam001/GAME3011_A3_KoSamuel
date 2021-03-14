@@ -21,7 +21,6 @@ public class Board : MonoBehaviour
 
         else
             instance = this;
-        
     }
 
     public BoardState boardState = BoardState.SELECTION;
@@ -65,9 +64,39 @@ public class Board : MonoBehaviour
             for (int y = 0; y < rows; y++)
             {
                 GameObject tile = Instantiate(tileTemplate, new Vector3(x + xOffset, y + yOffset), Quaternion.identity);
-                tile.GetComponent<SpriteRenderer>().sprite = tileSprites[Random.Range(0, tileSprites.Count)];
+                AssignSprite(tile);
             }
         }
+    }
+
+    private void AssignSprite(GameObject tile)
+    {
+        RaycastHit2D[] leftHit = Physics2D.RaycastAll(tile.transform.position, Vector2.left, 2.0f);
+        RaycastHit2D[] downHit = Physics2D.RaycastAll(tile.transform.position, Vector2.down, 2.0f);
+
+        RaycastHit2D[][] hitChecks = { leftHit, downHit };
+
+        List<Sprite> validSprites = new List<Sprite>(tileSprites);
+
+        foreach (RaycastHit2D[] hitDirections in hitChecks)
+        {
+            Sprite comparisonSprite = null;
+
+            for (int i = 0; i < hitDirections.Length; i++)
+            {
+                if (hitDirections[i].collider.GetComponent<Tile>() != null)
+                {
+                    if (comparisonSprite == null)
+                        comparisonSprite = hitDirections[i].collider.GetComponent<SpriteRenderer>().sprite;
+                    else if (comparisonSprite == hitDirections[i].collider.GetComponent<SpriteRenderer>().sprite)
+                    {
+                        validSprites.Remove(hitDirections[i].collider.GetComponent<SpriteRenderer>().sprite);
+                    }
+                }
+            }
+        }
+
+        tile.GetComponent<SpriteRenderer>().sprite = validSprites[Random.Range(0, validSprites.Count)];
     }
 
     private IEnumerator FindMatches()
@@ -137,7 +166,7 @@ public class Board : MonoBehaviour
         {
             if (result.collider.gameObject.GetComponent<Tile>() != null)
             {
-                if (result.collider.gameObject.GetComponent<Tile>().sprite == tile.GetComponent<Tile>().sprite && result.distance > 0.0f)
+                if (result.collider.gameObject.GetComponent<SpriteRenderer>().sprite == tile.GetComponent<SpriteRenderer>().sprite && result.distance > 0.0f)
                 {
                     return result.collider.gameObject.GetComponent<Tile>();
                 }

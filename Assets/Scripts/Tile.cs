@@ -4,14 +4,7 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    public Sprite sprite;
-
     public bool shifted;
-
-    private void Start()
-    {
-        sprite = GetComponent<SpriteRenderer>().sprite;
-    }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -30,11 +23,6 @@ public class Tile : MonoBehaviour
     private void ClearTilesInDirection(GameObject tile, Vector2 direction, List<GameObject> matchList)
     {
         RaycastHit2D hit2D = Physics2D.Raycast(tile.transform.position, direction);
-
-        if (hit2D.collider.gameObject.GetComponent<Tile>().sprite == tile.GetComponent<Tile>().sprite)
-        {
-
-        }
     }
 
     private void Update()
