@@ -37,7 +37,8 @@ public class Board : MonoBehaviour
         {
             for (int y = 0; y < rows; y++)
             {
-                Instantiate(tileTemplate, new Vector3(x + xOffset, y + yOffset), Quaternion.identity);
+                GameObject tile = Instantiate(tileTemplate, new Vector3(x + xOffset, y + yOffset), Quaternion.identity);
+                tile.GetComponent<SpriteRenderer>().sprite = tileSprites[Random.Range(0, tileSprites.Count)];
             }
         }
     }
