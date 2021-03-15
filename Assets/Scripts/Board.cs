@@ -36,7 +36,10 @@ public class Board : MonoBehaviour
     public List<Sprite> tileSprites;
 
     public List<Tile> shiftedTiles;
+    public int currentlyShiftingTiles;
     public List<Tile> allMatches;
+
+    private Coroutine clearingRoutine;
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +67,7 @@ public class Board : MonoBehaviour
             for (int y = 0; y < rows; y++)
             {
                 GameObject tile = Instantiate(tileTemplate, new Vector3(x + xOffset, y + yOffset), Quaternion.identity);
+                tile.transform.SetParent(transform);
                 AssignSprite(tile);
             }
         }
@@ -84,6 +88,7 @@ public class Board : MonoBehaviour
 
             for (int i = 0; i < hitDirections.Length; i++)
             {
+                // 
                 if (hitDirections[i].collider.GetComponent<Tile>() != null)
                 {
                     if (comparisonSprite == null)
@@ -119,10 +124,9 @@ public class Board : MonoBehaviour
         }
 
         allMatches.Clear();
-
-
         shiftedTiles.Clear();
 
+        clearingRoutine = null;
         boardState = BoardState.SHUFFLING;
     }
 
@@ -176,6 +180,12 @@ public class Board : MonoBehaviour
         return null;
     }
 
+    private void CheckShuffling()
+    {
+        if (currentlyShiftingTiles <= 0)
+            boardState = BoardState.SELECTION;
+    }
+
     private void Update()
     {
         switch(boardState)
@@ -183,10 +193,19 @@ public class Board : MonoBehaviour
             case BoardState.SELECTION:
                 break;
             case BoardState.SHUFFLING:
+                if (currentlyShiftingTiles <= 0 && shiftedTiles.Count > 0)
+                    boardState = BoardState.CLEARING;
+                else
+                {
+                    if (!IsInvoking(nameof(CheckShuffling)))
+                        Invoke(nameof(CheckShuffling), 2.0f);
+                }                        
+
                 break;
             case BoardState.CLEARING:
-                boardState = BoardState.SHUFFLING;
-                StartCoroutine(FindMatches());
+                if (clearingRoutine != null) return;
+
+                clearingRoutine = StartCoroutine(FindMatches());
                 break;
         }
     }

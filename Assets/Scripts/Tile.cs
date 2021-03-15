@@ -16,16 +16,16 @@ public class Tile : MonoBehaviour
             && !shifted)
         {
             Board.Instance.shiftedTiles.Add(this);
+            Board.Instance.currentlyShiftingTiles++;
+            
             shifted = true;
+
+            Invoke(nameof(EndShifting), 0.1f);
         }
     }
 
-    private void ClearTilesInDirection(GameObject tile, Vector2 direction, List<GameObject> matchList)
+    private void EndShifting()
     {
-        RaycastHit2D hit2D = Physics2D.Raycast(tile.transform.position, direction);
-    }
-
-    private void Update()
-    {
+        Board.Instance.currentlyShiftingTiles--;
     }
 }
