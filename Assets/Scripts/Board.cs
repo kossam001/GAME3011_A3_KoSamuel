@@ -28,6 +28,7 @@ public class Board : MonoBehaviour
     public Transform rightBound;
     public Transform leftBound;
     public Transform bottomBound;
+    public Transform upperBound;
     
     public int rows;
     public int columns;
@@ -53,11 +54,13 @@ public class Board : MonoBehaviour
     private void SetBounds(int rows, int columns)
     {
         rightBound.position = new Vector3(columns, 0.0f);
+        upperBound.position = new Vector3(0.0f, rows);
 
         leftBound.localScale = new Vector3(1.0f, rows);
         rightBound.localScale = new Vector3(1.0f, rows);
 
         bottomBound.localScale = new Vector3(columns, 1.0f);
+        upperBound.localScale = new Vector3(columns, 1.0f);
     }
 
     private void CreateTiles(float xOffset, float yOffset)
@@ -66,11 +69,16 @@ public class Board : MonoBehaviour
         {
             for (int y = 0; y < rows; y++)
             {
-                GameObject tile = Instantiate(tileTemplate, new Vector3(x + xOffset, y + yOffset), Quaternion.identity);
-                tile.transform.SetParent(transform);
-                AssignSprite(tile);
+                CreateTile(x + xOffset, y + yOffset);
             }
         }
+    }
+
+    public void CreateTile(float x, float y)
+    {
+        GameObject tile = Instantiate(tileTemplate, new Vector3(x, y), Quaternion.identity);
+        tile.transform.SetParent(transform);
+        AssignSprite(tile);
     }
 
     private void AssignSprite(GameObject tile)
