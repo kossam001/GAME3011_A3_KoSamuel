@@ -117,6 +117,8 @@ public class Board : MonoBehaviour
             tile.shifted = false; // Checked
         }
 
+        shiftedTiles.Clear();
+
         for (int i = 0; i < allMatches.Count; i++)
         {
             if (allMatches[i] != null)
@@ -124,7 +126,6 @@ public class Board : MonoBehaviour
         }
 
         allMatches.Clear();
-        shiftedTiles.Clear();
 
         clearingRoutine = null;
         boardState = BoardState.SHUFFLING;

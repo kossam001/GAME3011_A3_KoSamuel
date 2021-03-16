@@ -408,7 +408,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 280896471}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 8, z: -20}
+  m_LocalPosition: {x: 0, y: 7, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -443,7 +443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819a1b116ffce1747952d52901e6d8ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardState: 1
+  boardState: 0
   rightBound: {fileID: 382860161}
   leftBound: {fileID: 872986189}
   bottomBound: {fileID: 751143420}
@@ -455,9 +455,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fbdc2dd4941e61244980c24b6aaea0de, type: 3}
   - {fileID: 21300000, guid: 2ee3c05b5ca27554992a945764c99837, type: 3}
   - {fileID: 21300000, guid: e61a9cacb6991554e9ba8f0f19381eda, type: 3}
-  - {fileID: 21300000, guid: e3169e90983853d4d9d73233512118e2, type: 3}
-  - {fileID: 21300000, guid: dca7a45bef5bffa4395181b03e04d081, type: 3}
-  - {fileID: 21300000, guid: 6e84ec6047673d440aa377e4980bfea8, type: 3}
   shiftedTiles: []
   currentlyShiftingTiles: 0
   allMatches: []
@@ -468,12 +465,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 344633079}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.7149365, y: -0.41233367, z: -0.6145036}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.7149353, y: -0.41233826, z: -0.6145036}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &382860160
 GameObject:
@@ -802,7 +799,6 @@ MonoBehaviour:
   Interact:
     m_PersistentCalls:
       m_Calls: []
-  cam: {fileID: 280896473}
 --- !u!4 &981841482
 Transform:
   m_ObjectHideFlags: 0
@@ -815,7 +811,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &981841483
 MonoBehaviour:
