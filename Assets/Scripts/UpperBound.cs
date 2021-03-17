@@ -8,12 +8,27 @@ public class UpperBound : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D other)
     {
-        if (Board.Instance.boardState == BoardState.STARTING) return;
+        if (Board.Instance.boardState == BoardState.STARTING || Board.Instance.boardState == BoardState.SELECTION) return;
 
-        if (other.gameObject.CompareTag("Tile"))
+        if (other.gameObject.CompareTag("Tile") && !other.gameObject.GetComponent<Tile>().swapped)
         {
             if (spawningTile == null)
-                StartCoroutine(SpawnTile(other.transform.position.x, other.transform.position.y));
+            {
+                RaycastHit2D[] hits = Physics2D.RaycastAll(other.transform.position, Vector2.down);
+
+                if (hits.Length == Board.Instance.rows + 1) return;
+
+                Board.Instance.boardState = BoardState.SHUFFLING;
+
+                Tile newTile = Board.Instance.CreateTile(other.transform.position.x, other.transform.position.y);
+
+                newTile.shifted = true;
+                Board.Instance.shiftedTiles.Add(newTile);
+                Board.Instance.currentlyShiftingTiles++;
+                newTile.StartShifting();
+
+                spawningTile = null;
+            }
         }
     }
 
@@ -30,13 +45,6 @@ public class UpperBound : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
 
-        Board.Instance.boardState = BoardState.SHUFFLING;
 
-        Tile newTile = Board.Instance.CreateTile(x, y);
-
-        newTile.shifted = true;
-        Board.Instance.shiftedTiles.Add(newTile);
-
-        spawningTile = null;
     }
 }

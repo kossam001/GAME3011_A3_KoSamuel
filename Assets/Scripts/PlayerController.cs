@@ -64,6 +64,8 @@ public class PlayerController : MonoBehaviour
                         Board.Instance.boardState = BoardState.CLEARING;
 
                         adjacentSelected = true;
+                        tileToSwapWith.swapped = true;
+                        selectedTile.swapped = true;
 
                         InvokeRepeating(nameof(SwapBack), 0.1f, 0.1f);
                     }
@@ -83,7 +85,13 @@ public class PlayerController : MonoBehaviour
         if (selectedTile == null || tileToSwapWith == null)
         {
             if (selectedTile != null)
+            {
                 selectedTile.gameObject.GetComponent<SpriteRenderer>().color *= 2.0f;
+                selectedTile.swapped = false;
+            }
+
+            if (tileToSwapWith != null)
+                tileToSwapWith.swapped = false;
 
             CancelInvoke(nameof(SwapBack));
             return;
@@ -97,6 +105,9 @@ public class PlayerController : MonoBehaviour
             // Swap position
             selectedTile.transform.position = tileToSwapWith.transform.position;
             tileToSwapWith.transform.position = tempPosition;
+
+            tileToSwapWith.swapped = true;
+            selectedTile.swapped = true;
 
             selectedTile = null;
             tileToSwapWith = null;

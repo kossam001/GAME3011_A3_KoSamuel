@@ -57,7 +57,7 @@ public class Board : MonoBehaviour
     private void SetBounds(int rows, int columns)
     {
         rightBound.position = new Vector3(columns, 0.0f);
-        upperBound.position = new Vector3(0.0f, rows);
+        upperBound.position = new Vector3(0.0f, rows - 0.5f);
 
         leftBound.localScale = new Vector3(1.0f, rows);
         rightBound.localScale = new Vector3(1.0f, rows);
@@ -135,7 +135,10 @@ public class Board : MonoBehaviour
         for (int i = 0; i < allMatches.Count; i++)
         {
             if (allMatches[i] != null)
+            {
+                allMatches[i].gameObject.GetComponent<Tile>().swapped = false;
                 Destroy(allMatches[i].gameObject);
+            }
         }
 
         allMatches.Clear();

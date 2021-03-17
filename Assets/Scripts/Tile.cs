@@ -5,6 +5,7 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     public bool shifted;
+    public bool swapped;
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -20,7 +21,7 @@ public class Tile : MonoBehaviour
             
             shifted = true;
 
-            Invoke(nameof(EndShifting), 0.5f);
+            StartShifting();
         }
     }
 
@@ -38,7 +39,7 @@ public class Tile : MonoBehaviour
 
             shifted = true;
 
-            Invoke(nameof(EndShifting), 0.5f);
+            StartShifting();
         }
     }
 
@@ -57,6 +58,11 @@ public class Tile : MonoBehaviour
 
             transform.position = new Vector2(transform.position.x + 1, transform.position.y);
         }
+    }
+
+    public void StartShifting()
+    {
+        Invoke(nameof(EndShifting), 0.5f);
     }
 
     private void EndShifting()
