@@ -47,16 +47,28 @@ public class PlayerController : MonoBehaviour
                 {
                     if (ReferenceEquals(contact.collider, hit.collider))
                     {
-                        contact.collider.gameObject.GetComponent<SpriteRenderer>().color *= 0.1f;
+                        Tile tileToSwapWith = contact.collider.GetComponent<Tile>();
+                        Vector2 tempPosition = selectedTile.transform.position;
+
+                        // Swap position
+                        selectedTile.transform.position = tileToSwapWith.transform.position;
+                        tileToSwapWith.transform.position = tempPosition;
+
+                        // Mark shifted
+                        selectedTile.shifted = true;
+                        Board.Instance.shiftedTiles.Add(selectedTile);
+
+                        tileToSwapWith.shifted = true;
+                        Board.Instance.shiftedTiles.Add(tileToSwapWith);
+
+                        Board.Instance.boardState = BoardState.CLEARING;
+
                         adjacentSelected = true;
                     }
                 }
 
-                if (!adjacentSelected)
-                {
-                    selectedTile.gameObject.GetComponent<SpriteRenderer>().color *= 2.0f;
-                    selectedTile = null;
-                }
+                selectedTile.gameObject.GetComponent<SpriteRenderer>().color *= 2.0f;
+                selectedTile = null;
             }
         }
     }
