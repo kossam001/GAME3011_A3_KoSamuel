@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum BoardState
 {
+    STARTING,
     SELECTION,
     SHUFFLING,
     CLEARING
@@ -23,7 +24,7 @@ public class Board : MonoBehaviour
             instance = this;
     }
 
-    public BoardState boardState = BoardState.SELECTION;
+    public BoardState boardState = BoardState.STARTING;
 
     public Transform rightBound;
     public Transform leftBound;
@@ -49,6 +50,8 @@ public class Board : MonoBehaviour
 
         SetBounds(rows, columns);
         CreateTiles(0.5f, 0.5f);
+
+        boardState = BoardState.SELECTION;
     }
 
     private void SetBounds(int rows, int columns)
@@ -74,11 +77,13 @@ public class Board : MonoBehaviour
         }
     }
 
-    public void CreateTile(float x, float y)
+    public Tile CreateTile(float x, float y)
     {
         GameObject tile = Instantiate(tileTemplate, new Vector3(x, y), Quaternion.identity);
         tile.transform.SetParent(transform);
         AssignSprite(tile);
+
+        return tile.GetComponent<Tile>();
     }
 
     private void AssignSprite(GameObject tile)

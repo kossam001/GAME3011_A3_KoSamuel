@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 mousePosition;
 
     public Tile selectedTile;
-    public Tile previouslySelectedTile;
+    public Tile tileToSwapWith;
     public ContactPoint2D[] adjacentTiles = new ContactPoint2D[4];
 
     public void OnUse()
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
                 {
                     if (ReferenceEquals(contact.collider, hit.collider))
                     {
-                        Tile tileToSwapWith = contact.collider.GetComponent<Tile>();
+                        tileToSwapWith = contact.collider.GetComponent<Tile>();
                         Vector2 tempPosition = selectedTile.transform.position;
 
                         // Swap position
@@ -64,12 +64,44 @@ public class PlayerController : MonoBehaviour
                         Board.Instance.boardState = BoardState.CLEARING;
 
                         adjacentSelected = true;
+
+                        InvokeRepeating(nameof(SwapBack), 0.1f, 0.1f);
                     }
                 }
 
-                selectedTile.gameObject.GetComponent<SpriteRenderer>().color *= 2.0f;
-                selectedTile = null;
+                if (!adjacentSelected)
+                {
+                    selectedTile.gameObject.GetComponent<SpriteRenderer>().color *= 2.0f;
+                    selectedTile = null;
+                }
             }
+        }
+    }
+
+    public void SwapBack()
+    {
+        if (selectedTile == null || tileToSwapWith == null)
+        {
+            if (selectedTile != null)
+                selectedTile.gameObject.GetComponent<SpriteRenderer>().color *= 2.0f;
+
+            CancelInvoke(nameof(SwapBack));
+            return;
+        }
+        else if (!selectedTile.shifted && Board.Instance.boardState != BoardState.CLEARING)
+        {
+            selectedTile.gameObject.GetComponent<SpriteRenderer>().color *= 2.0f;
+
+            Vector2 tempPosition = selectedTile.transform.position;
+
+            // Swap position
+            selectedTile.transform.position = tileToSwapWith.transform.position;
+            tileToSwapWith.transform.position = tempPosition;
+
+            selectedTile = null;
+            tileToSwapWith = null;
+
+            CancelInvoke(nameof(SwapBack));
         }
     }
 

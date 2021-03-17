@@ -8,6 +8,8 @@ public class UpperBound : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D other)
     {
+        if (Board.Instance.boardState == BoardState.STARTING) return;
+
         if (other.gameObject.CompareTag("Tile"))
         {
             if (spawningTile == null)
@@ -15,11 +17,25 @@ public class UpperBound : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Tile"))
+        {
+            if (spawningTile != null)
+                StopCoroutine(spawningTile);
+        }
+    }
+
     private IEnumerator SpawnTile(float x, float y)
     {
         yield return new WaitForSeconds(0.1f);
 
-        Board.Instance.CreateTile(x, y);
+        Board.Instance.boardState = BoardState.SHUFFLING;
+
+        Tile newTile = Board.Instance.CreateTile(x, y);
+
+        newTile.shifted = true;
+        Board.Instance.shiftedTiles.Add(newTile);
 
         spawningTile = null;
     }
