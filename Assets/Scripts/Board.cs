@@ -45,8 +45,11 @@ public class Board : MonoBehaviour
 
     private Coroutine clearingRoutine;
 
-    [SerializeField] private int score;
+    public int score;
     [SerializeField] private TMP_Text scoreLabel;
+
+    public Sprite immoveableSprite;
+    public Sprite bombSprite;
 
     public int maxImmoveableTilesCount = 0;
     private int immoveableTileCount = 0;
@@ -95,6 +98,7 @@ public class Board : MonoBehaviour
         {
             immoveableTileCount++;
             tile.GetComponent<Tile>().isImmoveable = true;
+            tile.GetComponent<SpriteRenderer>().sprite = immoveableSprite;
             tile.tag = "Untagged";
         }
         else   
@@ -147,9 +151,6 @@ public class Board : MonoBehaviour
 
             tile.shifted = false; // Checked
         }
-
-        shiftedTiles.Clear();
-
         for (int i = 0; i < allMatches.Count; i++)
         {
             if (allMatches[i] != null)
@@ -158,14 +159,28 @@ public class Board : MonoBehaviour
                 score += allMatches[i].points;
                 scoreLabel.text = score.ToString();
 
-                Destroy(allMatches[i].gameObject);
+                // Generate a bomb
+                if (Random.Range(0.0f, 1.0f) <= 0.1f)
+                {
+                    Vector2 destroyedTilePosition = allMatches[i].transform.position;
+
+                    //Tile bombTile = CreateTile(destroyedTilePosition.x, destroyedTilePosition.y);
+                    Tile bombTile = allMatches[i];
+                    bombTile.isBomb = true;
+                    bombTile.points = -10;
+                    bombTile.GetComponent<SpriteRenderer>().sprite = bombSprite;
+                }
+                else
+                    Destroy(allMatches[i].gameObject);
             }
         }
 
+        shiftedTiles.Clear();
         allMatches.Clear();
 
-        clearingRoutine = null;
         boardState = BoardState.SHUFFLING;
+        StopCoroutine(clearingRoutine);
+        clearingRoutine = null;
     }
 
     private IEnumerator CheckInDirections(Vector2[] directions, Tile tile)
@@ -209,7 +224,9 @@ public class Board : MonoBehaviour
             if (result.collider.gameObject.GetComponent<Tile>() != null &&
                 result.collider.gameObject.CompareTag("Tile"))
             {
-                if (result.collider.gameObject.GetComponent<SpriteRenderer>().sprite == tile.GetComponent<SpriteRenderer>().sprite && result.distance > 0.0f)
+                if ((result.collider.gameObject.GetComponent<SpriteRenderer>().sprite == tile.GetComponent<SpriteRenderer>().sprite ||
+                    (result.collider.gameObject.GetComponent<Tile>().isBomb && !result.collider.gameObject.GetComponent<Tile>().isImmoveable))
+                    && result.distance > 0.0f)
                 {
                     return result.collider.gameObject.GetComponent<Tile>();
                 }
@@ -221,7 +238,7 @@ public class Board : MonoBehaviour
 
     private void CheckShuffling()
     {
-        if (currentlyShiftingTiles <= 0)
+        if (currentlyShiftingTiles <= 0 && shiftedTiles.Count <= 0)
             boardState = BoardState.SELECTION;
     }
 

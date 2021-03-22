@@ -84,8 +84,19 @@ public class PlayerController : MonoBehaviour
 
     public void SwapBack()
     {
-        if (selectedTile == null || tileToSwapWith == null)
+        if (selectedTile == null || tileToSwapWith == null || selectedTile.isBomb || tileToSwapWith.isBomb)
         {
+            //if (selectedTile.isBomb)
+            //{
+            //    Board.Instance.score += selectedTile.points;
+            //    Destroy(selectedTile.gameObject);
+            //}
+            //else if (tileToSwapWith.isBomb)
+            //{
+            //    Board.Instance.score += tileToSwapWith.points;
+            //    Destroy(tileToSwapWith.gameObject);
+            //}
+
             if (selectedTile != null)
             {
                 selectedTile.gameObject.GetComponent<SpriteRenderer>().color *= 2.0f;

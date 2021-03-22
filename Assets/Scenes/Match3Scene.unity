@@ -596,6 +596,8 @@ MonoBehaviour:
   allMatches: []
   score: 0
   scoreLabel: {fileID: 177255780}
+  immoveableSprite: {fileID: 21300000, guid: 8a5e46632c6b32f4a90c39a3e7ab89b5, type: 3}
+  bombSprite: {fileID: 21300000, guid: 3607a3f2726e9e447887082099fb8265, type: 3}
   maxImmoveableTilesCount: 100
 --- !u!4 &344633081
 Transform:

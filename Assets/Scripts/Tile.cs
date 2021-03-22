@@ -7,6 +7,7 @@ public class Tile : MonoBehaviour
     public bool shifted;
     public bool swapped;
     public bool isImmoveable;
+    public bool isBomb;
     public int points;
 
     private void OnCollisionEnter2D(Collision2D other)
