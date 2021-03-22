@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public enum BoardState
 {
@@ -36,12 +37,16 @@ public class Board : MonoBehaviour
 
     public GameObject tileTemplate;
     public List<Sprite> tileSprites;
+    public List<int> tilePoints;
 
     public List<Tile> shiftedTiles;
     public int currentlyShiftingTiles;
     public List<Tile> allMatches;
 
     private Coroutine clearingRoutine;
+
+    [SerializeField] private int score;
+    [SerializeField] private TMP_Text scoreLabel;
 
     // Start is called before the first frame update
     void Start()
@@ -114,7 +119,9 @@ public class Board : MonoBehaviour
             }
         }
 
-        tile.GetComponent<SpriteRenderer>().sprite = validSprites[Random.Range(0, validSprites.Count)];
+        int randomInt = Random.Range(0, validSprites.Count);
+        tile.GetComponent<SpriteRenderer>().sprite = validSprites[randomInt];
+        tile.GetComponent<Tile>().points = tilePoints[randomInt];
     }
 
     private IEnumerator FindMatches()
@@ -137,6 +144,9 @@ public class Board : MonoBehaviour
             if (allMatches[i] != null)
             {
                 allMatches[i].gameObject.GetComponent<Tile>().swapped = false;
+                score += allMatches[i].points;
+                scoreLabel.text = score.ToString();
+
                 Destroy(allMatches[i].gameObject);
             }
         }

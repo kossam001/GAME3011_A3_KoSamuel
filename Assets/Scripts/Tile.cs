@@ -6,6 +6,7 @@ public class Tile : MonoBehaviour
 {
     public bool shifted;
     public bool swapped;
+    public int points;
 
     private void OnCollisionEnter2D(Collision2D other)
     {
