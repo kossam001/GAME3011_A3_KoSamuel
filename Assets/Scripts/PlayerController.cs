@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnClick(InputValue button)
     {
+        if (Board.Instance.boardState != BoardState.SELECTION) return;
+
         Vector2 mousePosition2D = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, -Camera.main.transform.position.z));
         RaycastHit2D hit = Physics2D.Raycast(mousePosition2D, Vector2.zero);
 

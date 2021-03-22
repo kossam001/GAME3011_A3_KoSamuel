@@ -6,6 +6,7 @@ public class Tile : MonoBehaviour
 {
     public bool shifted;
     public bool swapped;
+    public bool isImmoveable;
     public int points;
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -23,6 +24,14 @@ public class Tile : MonoBehaviour
             shifted = true;
 
             StartShifting();
+        }
+
+        if (other.gameObject.CompareTag("LowerBound") && isImmoveable)
+        {
+            Board.Instance.boardState = BoardState.SHUFFLING;
+            StartShifting();
+
+            Destroy(gameObject);
         }
     }
 

@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 170183587}
   m_Layer: 0
   m_Name: Bound
-  m_TagString: Untagged
+  m_TagString: LowerBound
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -596,6 +596,7 @@ MonoBehaviour:
   allMatches: []
   score: 0
   scoreLabel: {fileID: 177255780}
+  maxImmoveableTilesCount: 100
 --- !u!4 &344633081
 Transform:
   m_ObjectHideFlags: 0

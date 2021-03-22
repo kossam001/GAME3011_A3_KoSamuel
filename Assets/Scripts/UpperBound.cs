@@ -8,9 +8,9 @@ public class UpperBound : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D other)
     {
-        if (Board.Instance.boardState == BoardState.STARTING || Board.Instance.boardState == BoardState.SELECTION) return;
+        if (Board.Instance.boardState == BoardState.STARTING) return;
 
-        if (other.gameObject.CompareTag("Tile") && !other.gameObject.GetComponent<Tile>().swapped)
+        if (!other.gameObject.GetComponent<Tile>().swapped)
         {
             if (spawningTile == null)
             {
@@ -32,19 +32,8 @@ public class UpperBound : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Tile"))
-        {
-            if (spawningTile != null)
-                StopCoroutine(spawningTile);
-        }
-    }
-
     private IEnumerator SpawnTile(float x, float y)
     {
         yield return new WaitForSeconds(0.1f);
-
-
     }
 }

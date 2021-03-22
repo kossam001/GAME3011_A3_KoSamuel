@@ -48,6 +48,9 @@ public class Board : MonoBehaviour
     [SerializeField] private int score;
     [SerializeField] private TMP_Text scoreLabel;
 
+    public int maxImmoveableTilesCount = 0;
+    private int immoveableTileCount = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -86,7 +89,16 @@ public class Board : MonoBehaviour
     {
         GameObject tile = Instantiate(tileTemplate, new Vector3(x, y), Quaternion.identity);
         tile.transform.SetParent(transform);
-        AssignSprite(tile);
+
+        // Create Immoveable tiles
+        if (Random.Range(0.0f, 1.0f) < 0.1f && immoveableTileCount <= maxImmoveableTilesCount)
+        {
+            immoveableTileCount++;
+            tile.GetComponent<Tile>().isImmoveable = true;
+            tile.tag = "Untagged";
+        }
+        else   
+            AssignSprite(tile);
 
         return tile.GetComponent<Tile>();
     }
@@ -106,7 +118,6 @@ public class Board : MonoBehaviour
 
             for (int i = 0; i < hitDirections.Length; i++)
             {
-                // 
                 if (hitDirections[i].collider.GetComponent<Tile>() != null)
                 {
                     if (comparisonSprite == null)
@@ -195,7 +206,8 @@ public class Board : MonoBehaviour
 
         foreach (RaycastHit2D result in hit)
         {
-            if (result.collider.gameObject.GetComponent<Tile>() != null)
+            if (result.collider.gameObject.GetComponent<Tile>() != null &&
+                result.collider.gameObject.CompareTag("Tile"))
             {
                 if (result.collider.gameObject.GetComponent<SpriteRenderer>().sprite == tile.GetComponent<SpriteRenderer>().sprite && result.distance > 0.0f)
                 {
