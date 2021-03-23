@@ -46,7 +46,6 @@ public class Board : MonoBehaviour
     private Coroutine clearingRoutine;
 
     public int score;
-    [SerializeField] private TMP_Text scoreLabel;
 
     public Sprite immoveableSprite;
     public Sprite bombSprite;

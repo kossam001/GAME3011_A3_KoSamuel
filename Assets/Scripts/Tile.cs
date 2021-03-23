@@ -27,7 +27,7 @@ public class Tile : MonoBehaviour
             StartShifting();
         }
 
-        if (other.gameObject.CompareTag("LowerBound") && isImmoveable)
+        if (other.gameObject.CompareTag("LowerBound") && (isImmoveable || isBomb)) 
         {
             Board.Instance.boardState = BoardState.SHUFFLING;
             StartShifting();
