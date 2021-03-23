@@ -18,7 +18,7 @@ public class Interactable : MonoBehaviour
     {
         if (SceneManager.GetSceneByName("Match3Scene").buildIndex == -1)
         {
-            SceneManager.LoadSceneAsync("Match3Scene", LoadSceneMode.Additive);
+            SceneManager.LoadSceneAsync("Match3Scene");
         }
     }
 }

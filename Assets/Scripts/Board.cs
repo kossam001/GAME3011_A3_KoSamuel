@@ -156,7 +156,6 @@ public class Board : MonoBehaviour
             {
                 allMatches[i].gameObject.GetComponent<Tile>().swapped = false;
                 score += allMatches[i].points;
-                scoreLabel.text = score.ToString();
 
                 // Generate a bomb
                 if (Random.Range(0.0f, 1.0f) <= 0.1f)

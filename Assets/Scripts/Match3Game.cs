@@ -50,4 +50,9 @@ public class Match3Game : MonoBehaviour
             startGame = false;
         }
     }
+
+    public void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
 }
