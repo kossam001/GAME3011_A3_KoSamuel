@@ -8,6 +8,12 @@ using UnityEngine.SceneManagement;
 
 public class Match3Game : MonoBehaviour
 {
+    [SerializeField] private TMP_Text timeDisplay;
+    [SerializeField] private Slider progress;
+    [SerializeField] private GameObject resultsPanel;
+
+    [SerializeField] private int winCondition;
+
     private void Start()
     {
 
@@ -15,6 +21,6 @@ public class Match3Game : MonoBehaviour
 
     private void Update()
     {
-
+        progress.value = (float)Board.Instance.score / (float)winCondition;
     }
 }
