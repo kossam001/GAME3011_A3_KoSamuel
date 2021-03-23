@@ -16,7 +16,10 @@ public class Match3Game : MonoBehaviour
 
     private void Start()
     {
+        float camY = Board.Instance.rows;
+        float camX = Board.Instance.columns;
 
+        Camera.main.transform.position = new Vector3(camX * 0.5f, camY * 0.5f - 1.0f, -camY);
     }
 
     private void Update()
