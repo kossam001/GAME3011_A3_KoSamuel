@@ -50,11 +50,13 @@ public class Board : MonoBehaviour
     public Sprite immoveableSprite;
     public Sprite bombSprite;
 
+    public bool canHaveImmoveableTiles = false;
     public int maxImmoveableTilesCount = 0;
     private int immoveableTileCount = 0;
 
-    // Start is called before the first frame update
-    void Start()
+    public bool canHaveBombs = false;
+
+    public void Initialize()
     {
         allMatches = new List<Tile>();
 
@@ -93,7 +95,7 @@ public class Board : MonoBehaviour
         tile.transform.SetParent(transform);
 
         // Create Immoveable tiles
-        if (Random.Range(0.0f, 1.0f) < 0.1f && immoveableTileCount <= maxImmoveableTilesCount)
+        if (Random.Range(0.0f, 1.0f) < 0.1f && immoveableTileCount <= maxImmoveableTilesCount && canHaveImmoveableTiles)
         {
             immoveableTileCount++;
             tile.GetComponent<Tile>().isImmoveable = true;
@@ -157,15 +159,18 @@ public class Board : MonoBehaviour
                 allMatches[i].gameObject.GetComponent<Tile>().swapped = false;
                 score += allMatches[i].points;
 
+                if (score <= 0.0f)
+                    score = 0;
+
                 // Generate a bomb
-                if (Random.Range(0.0f, 1.0f) <= 0.1f)
+                if (Random.Range(0.0f, 1.0f) <= 0.1f && canHaveBombs)
                 {
                     Vector2 destroyedTilePosition = allMatches[i].transform.position;
 
                     //Tile bombTile = CreateTile(destroyedTilePosition.x, destroyedTilePosition.y);
                     Tile bombTile = allMatches[i];
                     bombTile.isBomb = true;
-                    bombTile.points = -10;
+                    bombTile.points = -100;
                     bombTile.GetComponent<SpriteRenderer>().sprite = bombSprite;
                 }
                 else
